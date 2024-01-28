@@ -1,41 +1,12 @@
 import './App.css';
 import React, { useCallback } from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
-
+import { useEffect, useState, useMemo } from 'react';
 
 function App() {
   const [activateKey, setActivateKey] = useState(''); 
   const [displayText, setDisplayText] = useState(''); 
 
-  const playSound = useCallback((selector) => {
-    const audio = document.getElementById(selector); 
-    const drumPad = drumPads.find((pad) => pad.text === selector)
-    audio.currentTime = 0; 
-    //console.log(audio)
-    audio.play(); 
-    setActivateKey(selector); 
-    setDisplayText(drumPad.id); 
-
-    setTimeout(() => {
-      setActivateKey('')
-    }, 300)
-  }, [drumPads])
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      const keyPressed = event.key.toUpperCase();
-      playSound(keyPressed); 
-    }
-
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown); 
-    }; 
-  }, [playSound]); 
-
-  const drumPads = [
+  const drumPads = useMemo(() => [
     {
       keyCode: 81,
       id: 'Heater-1',
@@ -90,7 +61,34 @@ function App() {
       text: 'C',
       src: 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3'
     }
-  ]
+  ], [])
+
+  const playSound = useCallback((selector) => {
+    const audio = document.getElementById(selector); 
+    const drumPad = drumPads.find((pad) => pad.text === selector)
+    audio.currentTime = 0; 
+    //console.log(audio)
+    audio.play(); 
+    setActivateKey(selector); 
+    setDisplayText(drumPad.id); 
+
+    setTimeout(() => {
+      setActivateKey('')
+    }, 300)
+  }, [drumPads])
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const keyPressed = event.key.toUpperCase();
+      playSound(keyPressed); 
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown); 
+    }; 
+  }, [playSound]); 
 
   return (
     <div className="App">
