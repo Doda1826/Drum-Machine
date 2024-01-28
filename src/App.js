@@ -8,6 +8,20 @@ function App() {
   const [activateKey, setActivateKey] = useState(''); 
   const [displayText, setDisplayText] = useState(''); 
 
+  function playSound(selector) {
+    const audio = document.getElementById(selector); 
+    const drumPad = drumPads.find((pad) => pad.text === selector)
+    audio.currentTime = 0; 
+    //console.log(audio)
+    audio.play(); 
+    setActivateKey(selector); 
+    setDisplayText(drumPad.id); 
+
+    setTimeout(() => {
+      setActivateKey('')
+    }, 300)
+  }
+
   useEffect(() => {
     document.addEventListener('keydown', (event) => {
     //console.log(event.key)
@@ -73,27 +87,13 @@ function App() {
     }
   ]
 
-  function playSound(selector) {
-    const audio = document.getElementById(selector); 
-    const drumPad = drumPads.find((pad) => pad.text === selector)
-    audio.currentTime = 0; 
-    //console.log(audio)
-    audio.play(); 
-    setActivateKey(selector); 
-    setDisplayText(drumPad.id); 
-
-    setTimeout(() => {
-      setActivateKey('')
-    }, 300)
-  }
-
   return (
     <div className="App">
       <div id='drum-machine'>
         <div className='drum-pads'>
           {drumPads.map((drumPad) => 
           <div 
-          onClick={() => { playSound(drumPad.text)}} 
+          onClick={() => {playSound(drumPad.text)}} 
           className={`drum-pad ${activateKey === drumPad.text ? 'active' : ''}`} 
           id={drumPad.src}>
             {drumPad.text}
