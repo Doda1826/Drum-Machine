@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -8,7 +8,7 @@ function App() {
   const [activateKey, setActivateKey] = useState(''); 
   const [displayText, setDisplayText] = useState(''); 
 
-  function playSound(selector) {
+  const playSound = useCallback((selector) => {
     const audio = document.getElementById(selector); 
     const drumPad = drumPads.find((pad) => pad.text === selector)
     audio.currentTime = 0; 
@@ -20,15 +20,20 @@ function App() {
     setTimeout(() => {
       setActivateKey('')
     }, 300)
-  }
+  }, [])
 
   useEffect(() => {
-    document.addEventListener('keydown', (event) => {
-    //console.log(event.key)
-      playSound(event.key.toUpperCase()); 
-      setActivateKey(event.key.toUpperCase()); 
-    })
-  }, [])
+    const handleKeyDown = (event) => {
+      const keyPressed = event.key.toUpperCase();
+      playSound(keyPressed); 
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown); 
+    }; 
+  }, [playSound]); 
 
   const drumPads = [
     {
