@@ -1,0 +1,51 @@
+body{
+  background-color: grey;
+}
+
+.App{
+  display: flex; 
+  justify-content: center;
+  margin-top: 33vh;
+}
+
+.drum-pads{
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.drum-pad{
+  background-color: darkgray;
+  border: 1px solid black;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  margin: 5px; 
+  border-radius: 10px;
+  box-shadow: black 4px 4px 10px;
+}
+
+.drum-pad:hover{
+  height: 97px;
+  background-color: rgb(248, 55, 87);
+  box-shadow: none;
+}
+
+.drum-pad.active {
+  height: 97px;
+  background-color: rgb(248, 55, 87);
+  box-shadow: none;
+}
+
+#display {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin: 5px;
+  border: 5px solid black; 
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
