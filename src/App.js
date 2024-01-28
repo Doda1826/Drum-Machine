@@ -20,7 +20,7 @@ function App() {
     setTimeout(() => {
       setActivateKey('')
     }, 300)
-  }, [])
+  }, [drumPads])
 
   useEffect(() => {
     const handleKeyDown = (event) => {
